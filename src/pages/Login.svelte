@@ -63,7 +63,7 @@ onMount( async ()=>{
 
     <div class="field">
         {#if $currentUserssStore.usersData}
-            <button class="button is-primary is-fullwidth" on:click={handleLogin(userAccount, pass, $currentUserssStore.usersData)}>
+            <button class="button is-primary is-fullwidth" on:click={() => handleLogin(userAccount, pass, $currentUserssStore.usersData)}>
                 Ingresar
             </button>
         {/if}
