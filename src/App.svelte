@@ -1,16 +1,19 @@
 <script>
 // @ts-nocheck
-import Router from 'svelte-spa-router'
-import { routes } from './routes'
-import { authenticationStore } from './stores/authenticationStore'
-import Login from './pages/Login.svelte'
+import { onMount } from 'svelte';
+import Router from 'svelte-spa-router';
+import { routes } from './routes';
+import { authenticationStore } from './stores/authenticationStore';
 
+onMount(() => {
+    authenticationStore.restoreSession();
+
+    if (window.location.pathname !== '/') {
+        window.history.replaceState(null, '', '/');
+    }
+});
 </script>
 
 <div class="columns is-centered is-marginless" style="height: calc(100dvh - 4rem);">
-	{#if !$authenticationStore.isAuthenticated}
-		<Router routes={{ '/': Login, '*': Login }} />
-	{:else}
-		<Router {routes} />
-	{/if}
+    <Router {routes} />
 </div>
