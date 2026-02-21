@@ -1,5 +1,11 @@
 <script>
-export let user
+import { currentUserssStore } from "../stores/currentUsersStore";
+
+export let user;
+
+const handleRemove = (id) => {
+    currentUserssStore.deleteUser(id);
+}
 
 </script>
 
@@ -32,7 +38,8 @@ export let user
             </div>
 
             <div class="column is-narrow">
-                <button  class="button is-danger is-small" title="Eliminar usuario">
+                <button  class="button is-danger is-small" title="Eliminar usuario" 
+                on:click={()=> handleRemove(user?.user?.sha256)}>
                     Eliminar
                 </button>
             </div>

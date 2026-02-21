@@ -17,6 +17,16 @@ function createUsersStore() {
             }
             set(newUsersState);
         },
+        deleteUser(id) {
+            update(state => {
+                const filteredList = state.usersData.filter(({ user }) => user.sha256 !== id);
+
+                return {
+                    ...state,
+                    usersData: filteredList
+                };
+            });
+        },
         restartData(){
             const newUsersState = {
                 ...initialState,
