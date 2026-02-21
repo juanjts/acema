@@ -1,10 +1,10 @@
 <script>
-import { currentUserssStore } from "../stores/currentUsersStore";
+import { currentUsersStore } from "../stores/currentUsersStore";
 
 export let user;
 
 const handleRemove = (id) => {
-    currentUserssStore.deleteUser(id);
+    currentUsersStore.deleteUser(id);
 }
 
 </script>

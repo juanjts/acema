@@ -1,12 +1,17 @@
 <script>
 // @ts-nocheck
 
+import { onMount } from 'svelte';
+
 import UserCard from '../components/UserCard.svelte'
 import getAllUsers from '../services/getAllUsers';
 import { authenticationStore } from '../stores/authenticationStore';
-import { currentUserssStore } from '../stores/currentUsersStore';
+import { currentUsersStore } from '../stores/currentUsersStore';
 import { push } from "svelte-spa-router";
+import { paginatorStore } from '../stores/paginatorStore';
+    import SimplePaginator from '../components/simplePaginator.svelte';
 
+let isMounted = false;
 let searchStore = '';
 
 const handleLogout = () =>{
@@ -14,6 +19,15 @@ const handleLogout = () =>{
     push('/');
 }
 
+const handleSearch = (event) => {
+    let params = event.target.value;
+    paginatorStore.searchUpdater(params, $currentUsersStore.usersData);
+}
+
+onMount(()=>{
+    paginatorStore.initPaginator($currentUsersStore.usersData);
+    isMounted = !isMounted;
+})
 </script>
 
 
@@ -33,18 +47,22 @@ const handleLogout = () =>{
                 type="text"
                 placeholder="Buscar por nombre o email..."
                 bind:value={searchStore}
+                on:input={handleSearch}
             >
         </div>
     </div>
 
-    <div class="box has-background-grey is-marginless is-clipped is-flex is-flex-direction-column is-flex-grow-1" style="overflow: hidden;">
-        <div class="is-flex-grow-1 no-scrollbar is-paddingless" style="overflow-y: auto;">
-            {#each $currentUserssStore.usersData as user}
-                <UserCard {user} />
-            {/each}
+    {#if isMounted}
+        <div class="box has-background-grey is-marginless is-clipped is-flex is-flex-direction-column is-flex-grow-1" style="overflow: hidden;">
+            <div class="is-flex-grow-1 no-scrollbar is-paddingless" style="overflow-y: auto;">
+                {#each $paginatorStore.dataFiltered as user}
+                    <UserCard {user} />
+                {/each}
+            </div>
         </div>
-    </div>
-    <p>paginator...</p>
+        
+        <SimplePaginator/>
+    {/if}
 </section>
 
 <style>

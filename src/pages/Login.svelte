@@ -3,7 +3,7 @@
 import { onMount } from "svelte";
 import login from "../services/login";
 import getAllUsers from "../services/getAllUsers";
-import { currentUserssStore } from "../stores/currentUsersStore";
+import { currentUsersStore } from "../stores/currentUsersStore";
 import { authenticationStore } from "../stores/authenticationStore";
 import { push } from "svelte-spa-router";
 
@@ -22,7 +22,7 @@ onMount( async ()=>{
     authenticationStore.restoreSession();
     const usersData = await getAllUsers();
 
-    currentUserssStore.update(usersData);
+    currentUsersStore.update(usersData);
 
     userAccount = usersData[0].user.email;
     pass = usersData[0].user.password;
@@ -62,8 +62,8 @@ onMount( async ()=>{
     </div>
 
     <div class="field">
-        {#if $currentUserssStore.usersData}
-            <button class="button is-primary is-fullwidth" on:click={() => handleLogin(userAccount, pass, $currentUserssStore.usersData)}>
+        {#if $currentUsersStore.usersData}
+            <button class="button is-primary is-fullwidth" on:click={() => handleLogin(userAccount, pass, $currentUsersStore.usersData)}>
                 Ingresar
             </button>
         {/if}

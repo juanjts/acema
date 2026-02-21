@@ -37,4 +37,4 @@ function createUsersStore() {
     }
 }
 
-export const currentUserssStore = createUsersStore()
+export const currentUsersStore = createUsersStore()
